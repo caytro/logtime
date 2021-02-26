@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\ActiviteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=ActiviteRepository::class)
+ */
+class Activite
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="activites")
+     */
+    private $user_owner;
+
+    public function __construct()
+    {
+        $this->user_owner = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUserOwner(): Collection
+    {
+        return $this->user_owner;
+    }
+
+    public function addUserOwner(User $userOwner): self
+    {
+        if (!$this->user_owner->contains($userOwner)) {
+            $this->user_owner[] = $userOwner;
+        }
+
+        return $this;
+    }
+
+    public function removeUserOwner(User $userOwner): self
+    {
+        $this->user_owner->removeElement($userOwner);
+
+        return $this;
+    }
+}

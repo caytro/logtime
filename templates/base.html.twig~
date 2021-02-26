@@ -13,12 +13,7 @@
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
     </head>
-    
-	<body>
-		<div id="divTopBase">
-			<a href= '{{ path("home") }}' >Home</a>
-      	{% block body %}{% endblock %}
-	</body>
-	
-	
+    <body>
+        {% block body %}{% endblock %}
+    </body>
 </html>
